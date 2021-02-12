@@ -1,0 +1,256 @@
+<?php
+require('connection.php');
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVOICE||thinkrenta</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="invoice.css">
+    <style>
+        /*invoice header**/
+        body {
+            margin: 0px;
+            background-color: whitesmoke;
+        }
+
+        div#section-invoice {
+            text-align: center;
+        }
+
+        h4.customer-name-lbl {
+            /* border: 1px solid; */
+            display: inline-block;
+            text-decoration: underline;
+            text-decoration-color: green;
+        }
+
+        p#add {
+            text-align: center;
+            background: #B7B7B8;
+            border: 1px solid;
+            width: 69pc;
+            border-radius: 12px;
+            font-size: 12px;
+            font-family: "Amazon Ember Regular", sans-serif;
+        }
+
+        tr.text-white {
+            background: #345882;
+            text-align: center;
+            font-size: 12px;
+            font-family: "Amazon Ember Regular", sans-serif;
+        }
+
+        td {
+            font-size: 12px;
+            font-family: "Amazon Ember Regular", sans-serif;
+            text-align: center;
+            color: #656161;
+        }
+
+        h6 {
+            float: inherit;
+        }
+
+        #example2 {
+            box-sizing: border-box;
+            height: 100px;
+            border: 10px solid #345882;
+            font-size: 12px;
+            text-align: center;
+            width: 69pc;
+            margin-top: -10px;
+            background: #05BFD5;
+            color: white;
+        }
+
+        p#term-Conditions {
+            margin-top: 21px;
+        }
+
+        a {
+            color: #FFFF;
+        }
+
+        /* Mobile Responsive */
+        /* On screens that are 992px wide or less, go from four columns to two columns */
+        @media screen and (max-width: 992px) {
+            p#add {
+                width: 453px;
+            }
+
+            div#example2 {
+                width: 453px;
+            }
+
+            p#term-Conditions {
+                font-size: 9px;
+            }
+
+            p {
+                font-size: 13px;
+            }
+
+            table.table.table-striped.table-bordered.table-hover {
+                width: 44pc;
+            }
+        }
+
+        /* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
+        @media screen and (max-width: 600px) {
+            p#add {
+                width: 453px;
+            }
+
+            p#term-Conditions {
+                font-size: 9px;
+            }
+
+            p {
+                font-size: 13px;
+            }
+
+            div#example2 {
+                width: 453px;
+            }
+
+            table.table.table-striped.table-bordered.table-hover {
+                width: 44pc;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="d-flex justify-content-center">
+                    <img src="TR-logo.png" alt="" width="150px" height="120px">
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <h6>Hello,</h6>
+                        <h4 class="customer-name-lbl">GAUSUDDEEN SHAIKH</h4>
+                        <p>You have successfully placed the order on 10 Febuary,2021</p>
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 py-5 float-right">
+                        <h6>Order Id <span style="color: green;">|</span> <span>100001010100</span></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr class="text-white">
+                        <th scope="col">Image</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Tenure</th>
+                        <th scope="col">Rent P.M.</th>
+                        <th scope="col">Deposit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $sql = "SELECT * FROM invoice_items WHERE order_id = '20210210CD7D' ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute();
+                    $row = $stmt->fetchAll();
+                    foreach ($row as $rows) { ?>
+                        <tr>
+                            <th scope="row"><img src="http://crm.thinkrenta.com/crm.thinkrenta.com/sarf/thinkrenta/WEB_Admin/productImages/33-PNG%20READY.png" width="150px" height="100px"></th>
+                            <td><b><?php echo $rows['p_name']; ?></b> <br> Per Unit Rent ₹<?php echo $rows['p_rent']; ?> | Per Unit Deposit ₹ <?php echo $rows['p_deposit'] ?> </td>
+                            <td><?php echo $rows['p_qty']; ?></td>
+                            <td><?php echo $rows['p_month']; ?> months</td>
+                            <td><?php echo $rows['total_rent']; ?></td>
+                            <td><?php echo $rows['total_deposit']; ?></td>
+                        </tr>
+
+
+                    <?php }
+                    ?>
+
+
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Total</td>
+                        <td>3</td>
+                        <td>---</td>
+                        <td>₹1398.00</td>
+                        <td>₹3198.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Coupan Code</td>
+                        <td></td>
+                        <td>THINK07 APPLIED</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Total Monthly Rent:
+                            <br> Total Monthly Deposit:
+                            <br> Shipping:
+                            <br> Mode of Payment:
+                            <br> Total Amount Paid:
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                        <td>₹1,226.00 (Pay at the time of delivery)
+                            <br>₹3,134.00 (Refundable Deposit*)
+                            <br>Free Shipping,
+                            <br>Credit Card/Debit Card/NetBanking (Online),
+                            <br>₹3,134.00
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="default-box">
+                <p id="add"><b>Shipping Address</b><br><b>Reliance Life Sciences Pvt Ltd</b>
+                    <br><b>GAUSUDDEEN SHAIKH</b>
+                    <br>Flat no 1, Surya Kiran Building, Utaj Society, George Nagar, JB Nagar, Andheri East
+                    <br>Mumbai 400059 | Maharashtra | India
+                    <br>Primary Phone # +91 7259142145 | Alternate Phone # +91 99999 99999
+                    <br>darkbeforethedawn48@gmail.com
+                </p>
+            </div>
+
+            <div id="example2">
+                <p id="term-Conditions">
+                    Click Here For <a href="coupans.php">*Terms & Conditions and Coupon</a><a href="term.php"> Terms & Conditions</a>
+                    <br>Copyright 2021 © ThinkRenta LLP All Rights Reserved
+                </p>
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+
+</html>
